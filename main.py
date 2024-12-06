@@ -39,9 +39,15 @@ def vector_draw():
 
 #Define vector simulating function
 def vector_simulate():
-    arrow_sim_position = scene.mouse.project(normal=plane_normal, d=plane_distance)
-    if arrow_sim_position: #Update the arrow's final position to the cursor
-        user_arrow.axis = arrow_sim_position - user_arrow.pos
+    current_positon = mouse.pos
+    print(current_positon.x, draw_range, current_positon.y, current_positon.z)
+    if current_positon:
+        # if abs(current_positon.x) > (draw_range * 2.25) or abs(current_positon.y * 1.1) > (draw_range) or (current_positon.z) > (draw_range * 2):
+        #     user_arrow.color = color.red
+        #     scene.waitfor("mousemove")
+        #     user_arrow.visible = False
+        # else:
+            user_arrow.axis = current_positon - user_arrow.pos
 
 
 #Intialize the scene loop and drawing controls
@@ -49,4 +55,5 @@ scene.bind("mousedown", vector_draw)
 scene.bind("mousemove", vector_simulate)
 
 while True:
+    draw_range = scene.range
     rate(5)
