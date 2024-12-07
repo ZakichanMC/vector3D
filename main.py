@@ -1,13 +1,15 @@
 #Vector 3D - An interactive python-based web app for mapping vectors
 from vpython import *
 
-#Create scene are regulatory conditions
-scene = canvas(width=1200, height=500, background=color.white, title="Vector3 - A Vector Mapping Tool")
+#Create scene and regulatory conditions
+scene = canvas(width=1200, height=500, background=color.white, resizable=False, title="Vector3 - A Vector Mapping Tool")
 
 scene.ambient = color.white * 0.8
 
 distance = 5
+
 mode = "draw"
+modes = ["Choose a mode:", "Draw", "Vector"]
 
 #Create horizonal surface for vectors to rest off
 plane_normal = vec(0, 1, 0)  
@@ -50,9 +52,53 @@ def vector_simulate():
             user_arrow.axis = current_positon - user_arrow.pos
 
 
-#Intialize the scene loop and drawing controls
+#Create any userinput functions
+def mode_changer(event): #Detects any mode changes and adjusts keybindings
+    global mode
+    scene.unbind("mousedown", vector_draw)
+    scene.unbind("mousemove", vector_simulate)
+
+    if event.index == 0 or event.index == 1:
+        mode = "draw"
+
+        scene.bind("mousedown", vector_draw)
+        scene.bind("mousemove", vector_simulate)
+
+        print("Draw Mode Set!")
+
+
+    if event.index == 2:
+        mode = "vector"
+
+        print("Vector Mode Set!")
+
+        scene.unbind("mousedown", vector_draw)
+        scene.unbind("mousemove", vector_simulate)
+
+
+def show_invertedaxes(event):
+    if event.checked:
+        x_inv_axis.visible = True
+        y_inv_axis.visible = True
+        z_inv_axis.visible = True
+    else:
+        x_inv_axis.visible = False
+        y_inv_axis.visible = False
+        z_inv_axis.visible = False
+     
+#Create user objects
+menu(bind=mode_changer, choices=modes, selected="Current", index=0)
+checkbox(bind=show_invertedaxes, text="Show inverted axes", checked="False")
+
+
+
+
+#Intialize the scene loop
+print("Welcome to Vector3D")
 scene.bind("mousedown", vector_draw)
 scene.bind("mousemove", vector_simulate)
+
+
 
 while True:
     draw_range = scene.range
