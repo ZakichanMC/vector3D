@@ -67,7 +67,7 @@ def vector_create():
 def vector_clear():
     global drawnVector
     if vectorX.text != '' and vectorY.text != '' and vectorZ.text != '':
-        drawnVector = arrow(pos=vec(0,0,0), axis=vec(vectorX.text, vectorY.text, vectorZ.text), color=color.purple, round=True, shaftwidth=0.05)
+        drawnVector = arrow(pos=vec(0,0,0), axis=vec(float(vectorX.text), float(vectorY.text), float(vectorZ.text)), color=color.purple, round=True, shaftwidth=0.05)
         vectorX.delete()
         vectorY.delete()
         vectorZ.delete()
